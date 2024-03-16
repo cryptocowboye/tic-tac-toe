@@ -76,3 +76,5 @@ function game (player1, player2, gameboard) {
     }
     return gameboard.game
 }
+
+console.log(game(playerAssign(prompt("Enter name for X"), "X"), playerAssign(prompt("Enter name for O"), "O"), gameboardCreator()));
