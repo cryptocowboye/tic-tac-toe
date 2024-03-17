@@ -96,5 +96,23 @@ function game (player1, player2, gameboard) {
     })
     return gameboard.game
 }
+
+function erase() {
+    const squaresNodelist = [...document.querySelectorAll(".choice-container")]
+    squaresNodelist.forEach((square) => square.textContent = "")
+}
+
+function gameStarter() {
+    let playerOne = document.querySelector("#player_one_name")
+    let playerTwo = document.querySelector("#player_two_name")
+    let submission = document.querySelector("button[type='submit']")
+    submission.addEventListener("click", (e) => {
+        erase()
+        game(playerAssign(playerOne.value, "X"), playerAssign(playerTwo.value, "O"), gameboardCreator())
+        e.preventDefault()
+    })
+}
+
 // the names will be changed soon
-console.log(game(playerAssign("Player 1", "X"), playerAssign("Player 2", "O"), gameboardCreator()));
+gameStarter()
+
