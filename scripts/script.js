@@ -8,7 +8,7 @@ function playerAssign (name, choice) {
 
 function gameboardCreator () {
     const gameboardObj = {
-        game: [null, null, null, null, null, null, null, null, null],
+        game: ["", "", "", "", "", "", "", "", ""],
         turn: false
     }
     return gameboardObj
@@ -46,35 +46,58 @@ function winChecker (squares, choice) {
     return verdict
 }
 
-function game (player1, player2, gameboard) {
-    for (let i = 0; i < gameboard.game.length; i++) {
-        if (gameboard.turn === false) {                            // player 1's turn
-            let placer = prompt("Where would you like to put X? (1 - 9)")
-            if (gameboard.game[(+placer) - 1] === null) {
-                gameboard.game[(+placer) - 1] = player1.choice
-                gameboard.turn = true
-                console.log(gameboard.game)
-                if (winChecker(gameboard.game, player1.choice) === true) {
-                    break
-                }
-            } else {
-                i--
-            }
-        } else {                            // player 2's turn
-            let placer = prompt("Where would you like to put O? (1 - 9)")
-            if (gameboard.game[(+placer) - 1] === null) {
-                gameboard.game[(+placer) - 1] = player2.choice
-                gameboard.turn = false
-                console.log(gameboard.game)
-                if (winChecker(gameboard.game, player2.choice) === true) {
-                    break
-                }
-            } else {
-                i--
-            }
+function domObj () {
+    return {contents: document.querySelectorAll(".box")}
+}
+
+function editGameArray (player, gameboard, element, elements) {
+    if (gameboard.game[elements.indexOf(element)] === "") {
+        gameboard.game[elements.indexOf(element)] = player.choice
+        elements[elements.indexOf(element)].textContent = player.choice
+        if (winChecker(gameboard.game, player.choice) === true) {
+            return;
         }
     }
+    if (gameboard.turn === false) {
+        gameboard.turn = true
+    } else {
+        gameboard.turn = false
+    }
+}
+
+function addEvent (player1, player2, gameboard, element, elements) {
+    if (gameboard.turn === false) {                            // player 1's turn
+        if (winChecker(gameboard.game, player1.choice) !== true) {
+            editGameArray(player1, gameboard, element, elements)
+            console.log(gameboard.game) // can be removed
+        }
+    } else if (gameboard.turn === true) { 
+        if (winChecker(gameboard.game, player2.choice) !== true) {                           // player 2's turn
+            editGameArray(player2, gameboard, element, elements)
+            console.log(gameboard.game) // can be removed
+        }
+    }
+}
+
+
+function game (player1, player2, gameboard) {
+    let elements = domObj()
+    let elementsArray = [...elements.contents]
+    elements.contents.forEach((element) => {
+        element.addEventListener("click", (e) => {
+            e.target.disabled = true
+            if (winChecker(gameboard.game, player1.choice) === true || winChecker(gameboard.game, player2.choice) === true) {
+                console.log("The game is over!")
+            } else {
+                addEvent(player1, player2, gameboard, element, elementsArray)
+            }
+            
+            
+        })
+    })
     return gameboard.game
 }
 
-console.log(game(playerAssign(prompt("Enter name for X"), "X"), playerAssign(prompt("Enter name for O"), "O"), gameboardCreator()));
+console.log(game(playerAssign("Player 1", "X"), playerAssign("Player 2", "O"), gameboardCreator()));
+
+// the names will be changed soon
