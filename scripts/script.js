@@ -47,7 +47,7 @@ function winChecker (squares, choice) {
 }
 
 function domObj () {
-    return {contents: document.querySelectorAll(".box")}
+    return {contents: document.querySelectorAll(".choice-container")}
 }
 
 function editGameArray (player, gameboard, element, elements) {
@@ -91,13 +91,10 @@ function game (player1, player2, gameboard) {
             } else {
                 addEvent(player1, player2, gameboard, element, elementsArray)
             }
-            
-            
+            e.preventDefault()
         })
     })
     return gameboard.game
 }
-
-console.log(game(playerAssign("Player 1", "X"), playerAssign("Player 2", "O"), gameboardCreator()));
-
 // the names will be changed soon
+console.log(game(playerAssign("Player 1", "X"), playerAssign("Player 2", "O"), gameboardCreator()));
