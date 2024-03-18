@@ -68,12 +68,10 @@ function addEvent (player1, player2, gameboard, element, elements) {
     if (gameboard.turn === false) {                            // player 1's turn
         if (winChecker(gameboard.game, player1.choice, player1) !== true) {
             editGameArray(player1, gameboard, element, elements)
-            console.log(gameboard.game) // can be removed
         }
     } else if (gameboard.turn === true) { 
         if (winChecker(gameboard.game, player2.choice, player2) !== true) {                           // player 2's turn
             editGameArray(player2, gameboard, element, elements)
-            console.log(gameboard.game) // can be removed
         }
     }
 }
